@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RunCmd"
         mc:Ignorable="d"
-        Title="MainWindow" Height="560" Width="800">
+        Title="AilabGUI" Height="560" Width="800">
     <Window.Resources>
         <Style TargetType="DataGridCell" x:Key="CellNoBorder">
             <Style.Triggers>
@@ -25,9 +25,10 @@
         </Style>
     </Window.Resources>
     <Grid>
+        <!--源文件/源文件夹-->
         <DataGrid 
             HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,20,0,0"   
-            Width="340" Height="180" RowHeaderWidth="0" GridLinesVisibility="None"
+            Width="740" Height="180" RowHeaderWidth="0" GridLinesVisibility="None"
             AutoGenerateColumns="False" ColumnWidth="*"
             Background="Transparent"
             SelectionUnit="FullRow" CanUserAddRows="False"
@@ -51,44 +52,40 @@
                     ElementStyle="{StaticResource ContentMiddle}"
                     EditingElementStyle="{StaticResource EditContent}"
                     Binding="{Binding Path=SourcePath}"
-                    Header="视频源"
+                    Header="源文件/源文件夹(png,jpg,jpeg,bmp,mp4,mkv,avi,mov)"
                     >
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button HorizontalAlignment="Left" Margin="20,210,0,0" VerticalAlignment="Top" Width="100" Height="20" Content="添加文件夹" Click="AddFolder" x:Name="AddFolderButton"/>
-        <Button HorizontalAlignment="Left" Margin="140,210,0,0" VerticalAlignment="Top" Width="100" Height="20" Content="添加文件" Click="AddFile" x:Name="AddFileButton"/>
-        <Button HorizontalAlignment="Left" Margin="260,210,0,0" VerticalAlignment="Top" Width="100" Height="20" Content="删除" Click="DeleteSource" x:Name="DeleteSourceButton"/>
+        <Button HorizontalAlignment="Left" Margin="20,210,0,0" VerticalAlignment="Top" Width="200" Height="20" Content="添加文件夹" Click="AddFolder" x:Name="AddFolderButton"/>
+        <Button HorizontalAlignment="Left" Margin="290,210,0,0" VerticalAlignment="Top" Width="200" Height="20" Content="添加文件" Click="AddFile" x:Name="AddFileButton"/>
+        <Button HorizontalAlignment="Left" Margin="560,210,0,0" VerticalAlignment="Top" Width="200" Height="20" Content="删除" Click="DeleteSource" x:Name="DeleteSourceButton"/>
 
+        <!--超分选项-->
+        <Label Width="70" Height="26" Margin="10,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right" Content="线程数：" />
+        <ComboBox HorizontalAlignment="Left" Margin="80,280,0,0" VerticalAlignment="Top" Width="95" Height="24" x:Name="ntType" VerticalContentAlignment="Center"></ComboBox>
+        <Label Width="70" Height="26" Margin="210,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right" Content="crf：" />
+        <ComboBox HorizontalAlignment="Left" Margin="280,280,0,0" VerticalAlignment="Top" Width="95" Height="24" x:Name="crfType" VerticalContentAlignment="Center"></ComboBox>
+        <Label Width="70" Height="26" Margin="400,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right" Content="half：" />
+        <ComboBox HorizontalAlignment="Left" Margin="470,280,0,0" VerticalAlignment="Top" Width="95" Height="24" x:Name="halfType" VerticalContentAlignment="Center"></ComboBox>
+        <Label Width="70" Height="26" Margin="590,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right" Content="tile：" />
+        <ComboBox HorizontalAlignment="Left" Margin="660,280,0,0" VerticalAlignment="Top" Width="95" Height="24" x:Name="tileType" VerticalContentAlignment="Center"></ComboBox>
 
-        <Label Width="70" Height="26" Margin="10,240,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right" Content="线程数：" />
-        <ComboBox HorizontalAlignment="Left" Margin="80,240,0,0" VerticalAlignment="Top" Width="95" Height="24" x:Name="ntType" VerticalContentAlignment="Center"></ComboBox>
-        <Label Width="70" Height="26" Margin="195,240,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right" Content="crf：" />
-        <ComboBox HorizontalAlignment="Left" Margin="265,240,0,0" VerticalAlignment="Top" Width="95" Height="24" x:Name="crfType" VerticalContentAlignment="Center"></ComboBox>
+        <Label Width="70" Height="26" Margin="10,320,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right" Content="模型：" />
+        <ComboBox HorizontalAlignment="Left" Margin="80,320,0,0" VerticalAlignment="Top" Width="680" Height="24" x:Name="modelsType" VerticalContentAlignment="Center"></ComboBox>
 
-        <Label Width="70" Height="26" Margin="10,270,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right" Content="half：" />
-        <ComboBox HorizontalAlignment="Left" Margin="80,270,0,0" VerticalAlignment="Top" Width="95" Height="24" x:Name="halfType" VerticalContentAlignment="Center"></ComboBox>
-        <Label Width="70" Height="26" Margin="195,270,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right" Content="tile：" />
-        <ComboBox HorizontalAlignment="Left" Margin="265,270,0,0" VerticalAlignment="Top" Width="95" Height="24" x:Name="tileType" VerticalContentAlignment="Center"></ComboBox>
-
-        <Label Width="70" Height="26" Margin="10,300,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right" Content="mode：" />
-        <ComboBox HorizontalAlignment="Left" Margin="80,300,0,0" VerticalAlignment="Top" Width="95" Height="24" x:Name="modeType" VerticalContentAlignment="Center"></ComboBox>
-        
-        <Label Width="70" Height="26" Margin="10,330,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right" Content="模型：" />
-        <ComboBox HorizontalAlignment="Left" Margin="80,330,0,0" VerticalAlignment="Top" Width="280" Height="24" x:Name="modelsType" VerticalContentAlignment="Center"></ComboBox>
-
-        <TextBox Width="385" Height="335" Margin="380,20,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="CmdReturn" />
-
+        <!--当前处理-->
         <Label Width="70" Height="26" Margin="10,374,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right" Content="当前文件：" />
         <Label Width="685" Height="26" Margin="80,374,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left" x:Name="CurrentFile" />
-        <Label Width="70" Height="26" Margin="10,414,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right" Content="当前进度：" />
-        <ProgressBar Width="685" Height="30" Margin="80,410,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="CurrentProgress" />
-        <Label Width="210" Height="26" Margin="310,414,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="CurrenPercent" HorizontalContentAlignment="Center" />
 
-        <Label Width="80" Height="26" Margin="00,452,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="left" Content="输出文件夹：" />
-        <TextBox Width="570" Height="30" Margin="80,450,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="OutDir" VerticalContentAlignment="Center" />
-        <Button HorizontalAlignment="Left" Margin="665,450,0,0" VerticalAlignment="Top" Width="100" Height="30" Content="选择文件夹" Click="SelectOutDir" x:Name="SelectOutDirButton"/>
-        
-        <Button HorizontalAlignment="Left" Margin="330,490,0,0" VerticalAlignment="Top" Width="100" Height="20" Content="开始" Click="Start" x:Name="StartButton"/>
+        <Label Width="80" Height="26" Margin="00,422,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="left" Content="输出文件夹：" />
+        <TextBox Width="570" Height="30" Margin="80,420,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="OutDir" VerticalContentAlignment="Center" />
+        <Button HorizontalAlignment="Left" Margin="665,420,0,0" VerticalAlignment="Top" Width="100" Height="30" Content="选择文件夹" Click="SelectOutDir" x:Name="SelectOutDirButton"/>
+
+        <!--操作按钮-->
+        <Button HorizontalAlignment="Left" Margin="230,460,0,0" VerticalAlignment="Top" Width="100" Height="20" Content="开始" Click="Start" x:Name="StartButton"/>
+        <Button HorizontalAlignment="Left" Margin="430,460,0,0" VerticalAlignment="Top" Width="100" Height="20" Content="停止" Click="Stop" x:Name="StopButton"/>
+
+        <Button HorizontalAlignment="Left" Margin="630,460,0,0" VerticalAlignment="Top" Width="100" Height="20" Content="停止Ailab" Click="StopAilab" x:Name="StopAilabButton" Visibility="Hidden" />
     </Grid>
 </Window>

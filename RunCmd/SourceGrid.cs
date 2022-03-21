@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
@@ -7,6 +8,13 @@ namespace RunCmd
 {
     public partial class MainWindow
     {
+        private ObservableCollection<DisplaySource> SourcePaths = new ObservableCollection<DisplaySource>();
+
+        private void InitSourceGrid()
+        {
+            SourceGrid.ItemsSource = SourcePaths;
+        }
+
         private void AddFolder(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();

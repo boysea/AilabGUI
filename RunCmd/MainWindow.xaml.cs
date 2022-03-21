@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows;
-using System.Windows.Forms;
 
 namespace RunCmd
 {
@@ -15,134 +13,128 @@ namespace RunCmd
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ObservableCollection<DisplaySource> SourcePaths = new ObservableCollection<DisplaySource>();
-
-        private List<string> nt = new List<string> { "1","2", "3", "4" };
-        private List<string> crf = new List<string> { "16", "17", "18", "19", "20", "21", "22", "23", "24", };
-        private List<string> half = new List<string> { "True", "False" };
-        private List<string> tile = new List<string> { "0", "1", "2", "3", "4" };
-        private List<string> mode = new List<string> { "video", "image" };
-        private List<string> Scale = new List<string> { "2", "3", "4" };
-
-
-        private List<string> models = new List<string>();
-
         public MainWindow()
         {
             InitializeComponent();
 
-            //var thread = new Thread(() => RunCmd());
+            InitSourceGrid();
 
-            //thread.IsBackground = true;
+            InitScaleOption();
 
-            //thread.Start();
-
-            //var thread = new Thread(() => SetProgress());
-
-            //thread.IsBackground = true;
-
-            //thread.Start();
-
-            SourceGrid.ItemsSource = SourcePaths;
-
-            ntType.ItemsSource = nt;
-            ntType.SelectedIndex = 1;
-            crfType.ItemsSource = crf;
-            crfType.SelectedIndex = 4;
-            halfType.ItemsSource = half;
-            halfType.SelectedIndex = 0;
-            tileType.ItemsSource = tile;
-            tileType.SelectedIndex = 0;
-            modeType.ItemsSource = mode;
-            modeType.SelectedIndex = 0;
-            GetModels();
-            modelsType.ItemsSource = models;
-            modelsType.SelectedIndex = 0;
+            InitRunAilab();
         }
 
         private void Start(object sender, RoutedEventArgs e)
         {
-            
-        }
-
-        private void GetModels()
-        {
-            var path = $"{Environment.CurrentDirectory}/weights_v3";
-            var files = Directory.GetFiles(path).Where(x => x.EndsWith(".pth"));
-            models.AddRange(files.Select(x => Path.GetFileNameWithoutExtension(Path.GetFileName(x))));
-        }
-
-        private void SelectOutDir(object sender, RoutedEventArgs e)
-        {
-            FolderBrowserDialog dialog = new FolderBrowserDialog();
-            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (SourcePaths.Count == 0)
             {
-                string folderPath = dialog.SelectedPath;
-                OutDir.Text = folderPath;
+                MessageBox.Show("请添加源文件/源文件夹！");
+                return;
+            }
+
+            if (string.IsNullOrEmpty(OutDir.Text))
+            {
+                MessageBox.Show("请添加输出文件夹！");
+                return;
+            }
+
+            IsStop = false;
+
+            var files = new List<string>();
+
+            foreach (var path in SourcePaths.Select(x => x.SourcePath))
+            {
+                GetAllFiles(path, files);
+            }
+
+            AllFiles = files;
+
+            RunNextFile();
+        }
+
+        private void RunNextFile()
+        {
+            if (AllFiles.Count > 0)
+            {
+                var file = AllFiles.First();
+
+                AllFiles.RemoveAll(x => x == file);
+
+                var thread = new Thread(() => Run(file));
+
+                thread.IsBackground = true;
+
+                thread.Start();
+            }
+            else
+            {
+                CurrentFile.Content = "已完成";
+
+                SwitchAllElement(true);
             }
         }
 
-        private void RunCmd()
+        private void Stop(object sender, RoutedEventArgs e)
         {
-            var cmds = GetCmd();
+            IsStop = true;
 
-            foreach (var cmd in cmds)
+            var ps = Process.GetProcessesByName("execc");
+
+            foreach (var p in ps)
             {
-                Run(cmd);
+                p.Kill();
             }
+
+            DeleteTemp();
+
+            this.CurrentFile.Content = "已停止";
+
+            SwitchAllElement(true);
         }
 
-        private List<string> GetCmd()
+        private void StopAilab(object sender, RoutedEventArgs e)
         {
-            return new List<string>
+            var ps = Process.GetProcessesByName("execc");
+
+            foreach (var p in ps)
             {
-                "ping www.thisismyhome.top",
-                "ping www.thisismyhome.top -t"
-            };
+                p.Kill();
+            }
+
+            DeleteTemp();
+
+            RunNextFile();
         }
 
-        private void Run(string cmd)
+        private void DeleteTemp()
         {
-            //var path = Environment.CurrentDirectory;
-            var proc = new Process();
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.CreateNoWindow = true;
-            startInfo.FileName = "cmd.exe";
-            startInfo.UseShellExecute = false;
-            startInfo.RedirectStandardError = true;
-            startInfo.RedirectStandardInput = true;
-            startInfo.RedirectStandardOutput = true;
-            proc.StartInfo = startInfo;
-            proc.Start();
-            proc.StandardInput.WriteLine($"{cmd}&exit");
-
-            StreamReader reader = proc.StandardOutput;
-            var input = reader.ReadLine();
-            while (!reader.EndOfStream)
+            if (Directory.Exists($"{Environment.CurrentDirectory}/temp"))
             {
-                input = reader.ReadLine();
-                Dispatcher.Invoke(new Action(() =>
+                var deleteFiles = Directory.GetFiles($"{Environment.CurrentDirectory}/temp");
+                foreach (var deleteFile in deleteFiles)
                 {
-                    this.CmdReturn.Text += input + "\n";
-                    this.CmdReturn.ScrollToEnd();
-                }));
+                    File.Delete(deleteFile);
+                }
+                Directory.Delete($"{Environment.CurrentDirectory}/temp");
             }
-            proc.WaitForExit();
-            proc.Close();
         }
 
-        private void SetProgress()
+        private void SwitchAllElement(bool status)
         {
-            for (var i = 0; i <= 100; i++)
+            Dispatcher.Invoke(() =>
             {
-                Dispatcher.Invoke(new Action(() =>
-                {
-                    this.CurrenPercent.Content = $"{i}/100";
-                    this.CurrentProgress.Value = i;
-                }));
-
-                Thread.Sleep(100);
-            }
+                this.AddFolderButton.IsEnabled = status;
+                this.AddFileButton.IsEnabled = status;
+                this.DeleteSourceButton.IsEnabled = status;
+                this.ntType.IsEnabled = status;
+                this.crfType.IsEnabled = status;
+                this.halfType.IsEnabled = status;
+                this.tileType.IsEnabled = status;
+                this.modelsType.IsEnabled = status;
+                this.OutDir.IsEnabled = status;
+                this.SelectOutDirButton.IsEnabled = status;
+                this.StartButton.IsEnabled = status;
+            });
         }
     }
 }

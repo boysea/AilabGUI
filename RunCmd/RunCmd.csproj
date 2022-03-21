@@ -57,8 +57,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ObservableCollectionExtension.cs" />
+    <Compile Include="RunAilab.cs" />
+    <Compile Include="SetConfig.cs" />
     <Compile Include="Source.cs" />
     <Compile Include="SourceGrid.cs" />
+    <Compile Include="ScaleOption.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
