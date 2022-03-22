@@ -53,11 +53,11 @@ namespace RunCmd
             SwitchAllElement(true);
         }
 
-        private void GetAllFiles(string path,List<string> files)
+        private void GetAllFiles(string path, List<string> files)
         {
             if (File.Exists(path))
             {
-                var ext = Path.GetExtension(path).Replace(".","");
+                var ext = Path.GetExtension(path).Replace(".", "");
                 if (ImgExts.Contains(ext) || VideoExts.Contains(ext))
                 {
                     files.Add(path);
@@ -74,9 +74,9 @@ namespace RunCmd
                 }
             }
 
-            foreach(var directory in Directory.GetDirectories(path))
+            foreach (var directory in Directory.GetDirectories(path))
             {
-                GetAllFiles(directory,files);
+                GetAllFiles(directory, files);
             }
         }
 
@@ -84,12 +84,15 @@ namespace RunCmd
         {
             var proc = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
-            //startInfo.CreateNoWindow = true;
+            var output = string.Empty;
+            Dispatcher.Invoke(() =>
+            {
+                output = this.outputType.Text;
+            });
+            startInfo.CreateNoWindow = output == "显示";
             startInfo.FileName = "cmd.exe";
             startInfo.UseShellExecute = false;
-            //startInfo.RedirectStandardError = true;
             startInfo.RedirectStandardInput = true;
-            //startInfo.RedirectStandardOutput = true;
             proc.StartInfo = startInfo;
             proc.Start();
             proc.StandardInput.WriteLine($"packages110\\execc.exe");
@@ -130,7 +133,8 @@ namespace RunCmd
                     {
                         break;
                     }
-                }catch
+                }
+                catch
                 {
                     j++;
                     if (j == 60)

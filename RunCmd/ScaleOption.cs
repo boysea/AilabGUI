@@ -12,6 +12,7 @@ namespace RunCmd
         private List<string> half = new List<string> { "True", "False" };
         private List<string> tile = new List<string> { "0", "1", "2", "3", "4" };
         private List<string> models = new List<string>();
+        private List<string> output = new List<string> { "显示", "不显示" };
 
         private void InitScaleOption()
         {
@@ -26,6 +27,8 @@ namespace RunCmd
             GetModels();
             modelsType.ItemsSource = models;
             modelsType.SelectedIndex = 0;
+            outputType.ItemsSource = output;
+            outputType.SelectedIndex = 1;
         }
 
         private void GetModels()
