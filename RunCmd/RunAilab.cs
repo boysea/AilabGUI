@@ -84,15 +84,15 @@ namespace RunCmd
         {
             var proc = new Process();
             ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.CreateNoWindow = true;
+            //startInfo.CreateNoWindow = true;
             startInfo.FileName = "cmd.exe";
             startInfo.UseShellExecute = false;
-            startInfo.RedirectStandardError = true;
+            //startInfo.RedirectStandardError = true;
             startInfo.RedirectStandardInput = true;
-            startInfo.RedirectStandardOutput = true;
+            //startInfo.RedirectStandardOutput = true;
             proc.StartInfo = startInfo;
             proc.Start();
-            proc.StandardInput.WriteLine($"go.bat");
+            proc.StandardInput.WriteLine($"packages110\\execc.exe");
 
             var thread = new Thread(() => WatchThread());
 
@@ -105,12 +105,13 @@ namespace RunCmd
 
         private void WatchThread()
         {
-            PerformanceCounter pp = new PerformanceCounter();//性能计数器
+            PerformanceCounter pp = new PerformanceCounter();
             pp.CategoryName = "Process";
             pp.CounterName = "% Processor Time";
             pp.InstanceName = "execc";
             pp.MachineName = ".";
             var i = 0;
+            var j = 0;
             while (true)
             {
                 try
@@ -120,13 +121,22 @@ namespace RunCmd
                     {
                         i++;
                     }
-                    if (i == 10)
+                    else
+                    {
+                        i = 0;
+                        j = 0;
+                    }
+                    if (i == 60)
                     {
                         break;
                     }
                 }catch
                 {
-                    i++;
+                    j++;
+                    if (j == 60)
+                    {
+                        break;
+                    }
                 }
                 Thread.Sleep(1000);
             }

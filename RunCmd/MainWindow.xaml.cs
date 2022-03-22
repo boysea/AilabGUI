@@ -117,6 +117,15 @@ namespace RunCmd
                 }
                 Directory.Delete($"{Environment.CurrentDirectory}/temp");
             }
+
+            if (Directory.Exists($"{Environment.CurrentDirectory}/tmp"))
+            {
+                var deleteFiles = Directory.GetFiles($"{Environment.CurrentDirectory}/tmp");
+                foreach (var deleteFile in deleteFiles)
+                {
+                    File.Delete(deleteFile);
+                }
+            }
         }
 
         private void SwitchAllElement(bool status)
