@@ -74,7 +74,7 @@
         <Label Width="70" Height="26" Margin="10,280,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right" Content="模型：" />
         <ComboBox HorizontalAlignment="Left" Margin="80,280,0,0" VerticalAlignment="Top" Width="680" Height="24" x:Name="modelsType" VerticalContentAlignment="Center"></ComboBox>
 
-        <Label Width="70" Height="26" Margin="10,310,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right" Content="输出成窗口：" />
+        <Label Width="70" Height="26" Margin="10,310,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Right" Content="输出窗口：" />
         <ComboBox HorizontalAlignment="Left" Margin="80,310,0,0" VerticalAlignment="Top" Width="95" Height="24" x:Name="outputType" VerticalContentAlignment="Center"></ComboBox>
         
         <!--当前处理-->
