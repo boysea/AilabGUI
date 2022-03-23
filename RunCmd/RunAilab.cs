@@ -89,7 +89,7 @@ namespace RunCmd
             {
                 output = this.outputType.Text;
             });
-            startInfo.CreateNoWindow = output == "显示";
+            startInfo.CreateNoWindow = output == "不显示";
             startInfo.FileName = "cmd.exe";
             startInfo.UseShellExecute = false;
             startInfo.RedirectStandardInput = true;
