@@ -143,6 +143,7 @@ namespace RunCmd
                 this.OutDir.IsEnabled = status;
                 this.SelectOutDirButton.IsEnabled = status;
                 this.StartButton.IsEnabled = status;
+                this.outputType.IsEnabled = status;
             });
         }
     }
