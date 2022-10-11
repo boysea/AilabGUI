@@ -95,7 +95,7 @@ namespace RunCmd
             startInfo.RedirectStandardInput = true;
             proc.StartInfo = startInfo;
             proc.Start();
-            proc.StandardInput.WriteLine($"packages110\\execc.exe");
+            proc.StandardInput.WriteLine(@"runtime\python runtime\inference234.py");
 
             var thread = new Thread(() => WatchThread());
 
