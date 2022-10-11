@@ -28,22 +28,23 @@ namespace RunCmd
             var config = $@"
 scale={scale}
 
-model_path2=""weights_v3/{ model}.pth""
-model_path3=""weights_v3/{ model}.pth""
-model_path4=""weights_v3/{ model}.pth""
+model_path2=""weights_v3/{model}.pth""
+model_path3=""weights_v3/{model}.pth""
+model_path4=""weights_v3/{model}.pth""
 
-mode=""{ mode}""
+mode=""{mode}""
 
 half={half}
 tile={tile}
+cache_mode=0
 
 device = ""cuda:0""
 
 input_dir = ""{Environment.CurrentDirectory.Replace("\\", "/")}/temp""
 output_dir = ""{outDir.Replace("\\", "/")}""
 
-inp_path = ""{file.Replace("\\", "/")}""
-opt_path = ""{outDir.Replace("\\","/")}/{file.Replace("/", "").Replace("\\", "").Replace(":","")}""
+inp_path = r""{file.Replace("\\", "/")}""
+opt_path = r""{outDir.Replace("\\", "/")}/{file.Replace("/", "").Replace("\\", "").Replace(":", "")}""
 
 nt={nt}
 
