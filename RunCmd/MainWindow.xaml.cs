@@ -78,7 +78,7 @@ namespace RunCmd
         {
             IsStop = true;
 
-            var ps = Process.GetProcessesByName("execc");
+            var ps = Process.GetProcessesByName("Python");
 
             foreach (var p in ps)
             {
@@ -94,7 +94,7 @@ namespace RunCmd
 
         private void StopAilab(object sender, RoutedEventArgs e)
         {
-            var ps = Process.GetProcessesByName("execc");
+            var ps = Process.GetProcessesByName("Python");
 
             foreach (var p in ps)
             {

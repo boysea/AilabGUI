@@ -111,7 +111,7 @@ namespace RunCmd
             PerformanceCounter pp = new PerformanceCounter();
             pp.CategoryName = "Process";
             pp.CounterName = "% Processor Time";
-            pp.InstanceName = "execc";
+            pp.InstanceName = "Python";
             pp.MachineName = ".";
             var i = 0;
             var j = 0;
