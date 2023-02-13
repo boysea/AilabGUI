@@ -5,6 +5,9 @@ using System.Linq.Expressions;
 
 namespace RunCmd
 {
+    /// <summary>
+    /// ObservableCollection扩展
+    /// </summary>
     public static class ObservableCollectionExtension
     {
         public static void AddRange<T>(this ObservableCollection<T> observableCollection,List<T> ts)
